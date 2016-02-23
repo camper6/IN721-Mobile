@@ -12,28 +12,39 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Yo ho ho!"
-        android:textSize="24sp" />
+        android:text="@string/author"
+        android:textSize="24sp"
+        android:id="@+id/textView2" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Plain TextView"
-        android:id="@+id/textView"
+        android:id="@+id/animalView"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:textSize="24sp" />
 
     <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:id="@+id/imageView"
-        android:layout_below="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imgColourBlock"
+        android:layout_below="@+id/animalView"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="37dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:background="#ff0000" />
+        android:background="@drawable/basil" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/feb_fridays"
+        android:id="@+id/FebFridays"
+        android:layout_below="@+id/textView2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="44dp"
+        android:textSize="24sp" />
 
 </RelativeLayout>

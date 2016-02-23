@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="string_resource">Fluff</string>
+    <dimen name="dimen_resource">16dp</dimen>
+    <color name="color_resource">#303F9F</color>
+    <bool name="bool_resource">true</bool>
+    <integer name="integer_resource">13</integer>
+    <integer-array name="integer_array_resource">
+        <item>5</item>
+        <item>12</item>
+        <item>19</item>
+        <item>26</item>
+    </integer-array>
+    <array name="array_resource">
+        <item>apple</item>
+        <item>pear</item>
+        <item>nectarine</item>
+        <item>mandrake</item>
+    </array>
+
+</resources>
