@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Event Handlers</string>
+    <string name="event_tester">Event Tester</string>
+    <string name="click">Click</string>
+    <string name="natural_click">Natural Click</string>
+    <string name="long_click">Long Click</string>
+    <string name="testing">...testing</string>
+    <string name="username">Type in your username</string>
+</resources>
