@@ -23,9 +23,9 @@ public class MainNavigation extends AppCompatActivity {
     }
 
     public void setUpGroupList() {
-        String[] group = {"Services,", "Fun Things To Do", "Dining", "Shopping"};
+        String[] group = {"Services", "Fun Things To Do", "Dining", "Shopping"};
 
-        ArrayAdapter<String> groupAdapter = new ArrayAdapter<String>(this, R.layout.activity_main_navigation, group);
+        ArrayAdapter<String> groupAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, group);
 
         ListView groupListView = (ListView) findViewById(R.id.listView);
 

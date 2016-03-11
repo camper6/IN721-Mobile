@@ -20,9 +20,9 @@
             android:label="@string/title_activity_activities"
             android:parentActivityName=".MainNavigation"
             android:theme="@style/AppTheme.NoActionBar">
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value="bit.abduhs1.dunedin.MainNavigation" />
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="bit.abduhs1.dunedin.MainNavigation" />
         </activity>
         <activity
             android:name=".Shopping"
@@ -51,6 +51,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="bit.abduhs1.dunedin.MainNavigation" />
         </activity>
+        <activity android:name=".Dummy"></activity>
     </application>
 
 </manifest>
