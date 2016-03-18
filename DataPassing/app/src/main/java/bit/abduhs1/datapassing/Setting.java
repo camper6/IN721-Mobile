@@ -42,7 +42,7 @@ public class Setting extends AppCompatActivity {
 
                 finish();
             } else {
-                String warning = "Your username should be more than eight characters long";
+                String warning = "Your username should be more than five characters long";
                 Toast.makeText(Setting.this, warning, Toast.LENGTH_LONG).show();
             }
         }
