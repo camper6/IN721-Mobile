@@ -1,8 +1,5 @@
 <resources>
     <string name="app_name">Music School</string>
-    <string name="title_activity_splash">Splash</string>
-    <string name="appbar_scrolling_view_behavior">Scrolling View Behavior</string>
-
     <string-array name="months">
         <item>January</item>
         <item>February</item>
