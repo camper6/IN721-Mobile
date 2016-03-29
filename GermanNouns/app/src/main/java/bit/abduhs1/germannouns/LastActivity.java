@@ -22,7 +22,7 @@ public class LastActivity extends AppCompatActivity {
 
         Intent launchIntent = getIntent();
         score = launchIntent.getIntExtra("score", 0);
-        textViewScoring.setText(score);
+        textViewScored.setText(score + "");
 
         Button btRestart = (Button)findViewById(R.id.btRestart);
         btRestart.setOnClickListener(new RestartButtonHandler());

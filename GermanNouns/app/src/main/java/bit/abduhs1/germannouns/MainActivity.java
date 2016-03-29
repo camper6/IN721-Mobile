@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView ivNoun;
     private TextView tvQuestion;
     private TextView tvAnswer;
+    private int questionsUsed = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,12 +29,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         manager = new Manager();
-        /* for (int i = 0; i < 100 ; i++) {
+        for (int i = 0; i < 100 ; i++) {
             manager.shuffleQuestions();
-        } */
+        }
 
-        manager.shuffleQuestions();
-        currentQuestion = manager.getQuestion();
+        //manager.shuffleQuestions();
+        currentQuestion = manager.getQuestion(questionsUsed);
 
         answer = "";
         germanAnswer = "";
@@ -59,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setUpQuestion() {
-        tvQuiz.setText("What is the associated gender of " + currentQuestion.getEnglish());
+        tvQuiz.setText("What is the associated gender of " + currentQuestion.getEnglish() + "?");
         ivNoun.setImageResource(currentQuestion.getImage());
         tvQuestion.setText(currentQuestion.getGerman());
         tvAnswer.setText("??? " + currentQuestion.getGerman());
@@ -67,8 +68,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void nextQuestion(Manager manager) {
         this.manager = manager;
-        if (!this.manager.isLastQuestion()) {
-            currentQuestion = this.manager.nextQuestion();
+        answer = "";
+        if (!(questionsUsed > 10)) {
+            currentQuestion = this.manager.getQuestion(questionsUsed);
             setUpQuestion();
         } else {
             Intent changeActivityIntent = new Intent(MainActivity.this, LastActivity.class);
@@ -111,13 +113,15 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onClick(View v) {
-            NextQuestionFragment nextQuestion = new NextQuestionFragment();
-            nextQuestion.setAnswer(answer);
-            nextQuestion.setGermanAnswer(germanAnswer);
-            nextQuestion.setManager(manager);
-            FragmentManager fm = getFragmentManager();
 
-            if (!answer.isEmpty()) {
+            if (!(answer.isEmpty())) {
+                NextQuestionFragment nextQuestion = new NextQuestionFragment();
+                nextQuestion.setAnswer(answer);
+                nextQuestion.setGermanAnswer(germanAnswer);
+                nextQuestion.setManager(manager);
+                nextQuestion.setQuestionsUsed(questionsUsed);
+                questionsUsed++;
+                FragmentManager fm = getFragmentManager();
                 nextQuestion.show(fm, "confirm");
             } else {
                 Toast.makeText(MainActivity.this, "You have not selected one of the answers", Toast.LENGTH_SHORT).show();

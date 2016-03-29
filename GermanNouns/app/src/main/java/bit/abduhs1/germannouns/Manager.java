@@ -13,8 +13,8 @@ public class Manager {
     private ArrayList<Question> quiz = new ArrayList<Question>();
     private int questionIndex;
     private static final String masculine = "Masculine";
-    private static final String feminine = "Feminine";
     private static final String neutral = "Neutral";
+    private static final String feminine = "Feminine";
     private static final String der = "Der";
     private static final String das = "Das";
     private static final String die = "Die";
@@ -40,8 +40,12 @@ public class Manager {
         return  quiz;
     }
 
-    public Question getQuestion() {
-        return quiz.get(questionIndex);
+    public Question getQuestion(int index) {
+        return quiz.get(index);
+    }
+
+    public void correct(int index) {
+        quiz.get(index).setCorrect(true);
     }
 
     public Question nextQuestion() {
@@ -61,7 +65,7 @@ public class Manager {
     public Boolean isLastQuestion() {
         Boolean lastQuestion = false;
 
-        if(questionIndex == quiz.size()) {
+        if(questionIndex > 10) {
             lastQuestion = true;
         }
 

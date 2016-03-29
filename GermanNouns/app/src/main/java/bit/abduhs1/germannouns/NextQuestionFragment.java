@@ -13,6 +13,7 @@ public class NextQuestionFragment extends DialogFragment {
     private String answer;
     private String germanAnswer;
     private Manager manager;
+    private int questionsUsed;
 
     public NextQuestionFragment() {
 
@@ -23,25 +24,27 @@ public class NextQuestionFragment extends DialogFragment {
     }
 
     public void setGermanAnswer(String germanAnswer) {
-        this.answer = germanAnswer;
+        this.germanAnswer = germanAnswer;
     }
 
     public void setManager(Manager manager) {
         this.manager = manager;
     }
 
+    public void setQuestionsUsed(int questionsUsed) { this.questionsUsed = questionsUsed; }
+
     @Override
     public Dialog onCreateDialog (Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-        if (manager.getQuestion().getGender() == answer) {
-            builder.setTitle("Correct! The associative gender of " + manager.getQuestion().getEnglish()
-                    + " is " + answer + ". " + germanAnswer + " " + manager.getQuestion().getGerman());
-            manager.getQuestion().setCorrect(true);
+        if (manager.getQuestion(questionsUsed).getGender() == answer) {
+            builder.setTitle("Correct! The associative gender of " + manager.getQuestion(questionsUsed).getEnglish()
+                    + " is " + answer + ". " + germanAnswer + " " + manager.getQuestion(questionsUsed).getGerman());
+            manager.correct(questionsUsed);
         } else {
-            builder.setTitle("Incorrect. The associative gender of " + manager.getQuestion().getEnglish()
-                    + " is " + manager.getQuestion().getGender() + ". " + manager.getQuestion().getGermanGender()
-                    + " " + manager.getQuestion().getGerman());
+            builder.setTitle("Incorrect. The associative gender of " + manager.getQuestion(questionsUsed).getEnglish()
+                    + " is " + manager.getQuestion(questionsUsed).getGender() + ". " + manager.getQuestion(questionsUsed).getGermanGender()
+                    + " " + manager.getQuestion(questionsUsed).getGerman());
         }
         builder.setPositiveButton("OK", new OKButtonHandler());
 
