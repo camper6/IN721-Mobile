@@ -39,12 +39,12 @@ public class NextQuestionFragment extends DialogFragment {
 
         if (manager.getQuestion(questionsUsed).getGender() == answer) {
             builder.setTitle("Correct! The associative gender of " + manager.getQuestion(questionsUsed).getEnglish()
-                    + " is " + answer + ". " + germanAnswer + " " + manager.getQuestion(questionsUsed).getGerman());
-            manager.correct(questionsUsed);
+                    + " is " + answer + ".");
+            manager.getQuestion(questionsUsed).setCorrect(true);
         } else {
-            builder.setTitle("Incorrect. The associative gender of " + manager.getQuestion(questionsUsed).getEnglish()
-                    + " is " + manager.getQuestion(questionsUsed).getGender() + ". " + manager.getQuestion(questionsUsed).getGermanGender()
-                    + " " + manager.getQuestion(questionsUsed).getGerman());
+            builder.setTitle("Incorrect. " + manager.getQuestion(questionsUsed).getGermanGender()
+                    + " " + manager.getQuestion(questionsUsed).getGerman() + ". The associative gender of " + manager.getQuestion(questionsUsed).getEnglish()
+                    + " is " + manager.getQuestion(questionsUsed).getGender() + "." );
         }
         builder.setPositiveButton("OK", new OKButtonHandler());
 

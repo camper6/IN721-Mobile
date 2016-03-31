@@ -2,7 +2,6 @@ package bit.abduhs1.germannouns;
 
 import android.app.FragmentManager;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -21,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView ivNoun;
     private TextView tvQuestion;
     private TextView tvAnswer;
+    private TextView tvQuestionIndex;
     private int questionsUsed = 0;
 
     @Override
@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         ivNoun = (ImageView)findViewById(R.id.ivNoun);
         tvQuestion = (TextView)findViewById(R.id.tvQuestion);
         tvAnswer = (TextView)findViewById(R.id.tvAnswer);
+        tvQuestionIndex = (TextView)findViewById(R.id.tvQuestionIndex);
 
         setUpQuestion();
 
@@ -64,12 +65,13 @@ public class MainActivity extends AppCompatActivity {
         ivNoun.setImageResource(currentQuestion.getImage());
         tvQuestion.setText(currentQuestion.getGerman());
         tvAnswer.setText("??? " + currentQuestion.getGerman());
+        tvQuestionIndex.setText(questionsUsed+1 + " / " + 11);
     }
 
     public void nextQuestion(Manager manager) {
         this.manager = manager;
         answer = "";
-        if (!(questionsUsed > 10)) {
+        if (questionsUsed < 11) {
             currentQuestion = this.manager.getQuestion(questionsUsed);
             setUpQuestion();
         } else {

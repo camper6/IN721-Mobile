@@ -12,6 +12,7 @@ public class Manager {
 
     private ArrayList<Question> quiz = new ArrayList<Question>();
     private int questionIndex;
+    //private Boolean lastQuestion;
     private static final String masculine = "Masculine";
     private static final String neutral = "Neutral";
     private static final String feminine = "Feminine";
@@ -21,6 +22,7 @@ public class Manager {
 
     public Manager() {
         questionIndex = 0;
+        //lastQuestion = false;
 
         quiz.add(new Question("Apfel", "Apple", der, masculine, R.drawable.apple));
         quiz.add(new Question("Auto", "Car", das, neutral, R.drawable.car));
@@ -36,20 +38,20 @@ public class Manager {
 
     }
 
-    public ArrayList<Question> getQuiz() {
-        return  quiz;
-    }
-
     public Question getQuestion(int index) {
+        questionIndex = index;
         return quiz.get(index);
     }
 
-    public void correct(int index) {
-        quiz.get(index).setCorrect(true);
-    }
-
     public Question nextQuestion() {
+        //Question currentQuestion = quiz.get(questionIndex);
         questionIndex++;
+        //if (questionIndex < quiz.size()) {
+        //    currentQuestion = quiz.get(questionIndex);
+        //} else {
+        //    lastQuestion = true;
+        //}
+        //return currentQuestion;
         return quiz.get(questionIndex);
     }
 
@@ -62,15 +64,13 @@ public class Manager {
         }
     }
 
-    public Boolean isLastQuestion() {
-        Boolean lastQuestion = false;
-
-        if(questionIndex > 10) {
-            lastQuestion = true;
-        }
-
+    /*public Boolean isLastQuestion() {
         return lastQuestion;
-    }
+    }*/
+
+    /* public String onQuestion() {
+        return questionIndex+1 + " / " + quiz.size();
+    }*/
 
     public int calculateScore() {
         int score = 0;
