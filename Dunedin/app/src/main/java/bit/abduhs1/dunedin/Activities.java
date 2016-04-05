@@ -23,15 +23,10 @@ public class Activities extends Activity {
         setContentView(R.layout.activity_activities);
 
         initialiseDataArray();
-        setUpGroupList();
-    }
-
-    public void setUpGroupList() {
 
         ActivitiesArrayAdapter activitiesAdapter = new ActivitiesArrayAdapter(this, R.layout.custom_list_item, locations);
 
         ListView groupListView = (ListView) findViewById(R.id.listViewActivities);
-
         groupListView.setAdapter(activitiesAdapter);
     }
 
@@ -58,7 +53,7 @@ public class Activities extends Activity {
         locations[6] = new Location("St Kilda Beach", stkildaImage);
         locations[7] = new Location("Salt Water Pool", saltpoolmage);
         locations[8] = new Location("Speights Brewery", breweryImage);
-        locations[9] = new Location("Taeri Gorge", taeriImage);
+        locations[9] = new Location("Taeri Gorge Railway", taeriImage);
     }
 
     public class ActivitiesArrayAdapter extends ArrayAdapter<Location> {
