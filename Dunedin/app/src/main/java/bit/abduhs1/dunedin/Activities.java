@@ -62,6 +62,7 @@ public class Activities extends Activity {
             super(context, resource, objects);
         }
 
+        @Override
         public View getView(int position, View convertView, ViewGroup container) {
             LayoutInflater inflater = LayoutInflater.from(Activities.this);
 
