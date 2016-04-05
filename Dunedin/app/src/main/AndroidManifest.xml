@@ -15,42 +15,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".Activities"
-            android:label="@string/title_activity_activities"
-            android:parentActivityName=".MainNavigation"
-            android:theme="@style/AppTheme.NoActionBar">
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value="bit.abduhs1.dunedin.MainNavigation" />
-        </activity>
-        <activity
-            android:name=".Shopping"
-            android:label="@string/title_activity_shopping"
-            android:parentActivityName=".MainNavigation"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="bit.abduhs1.dunedin.MainNavigation" />
-        </activity>
-        <activity
-            android:name=".Dining"
-            android:label="@string/title_activity_dining"
-            android:parentActivityName=".MainNavigation"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="bit.abduhs1.dunedin.MainNavigation" />
-        </activity>
-        <activity
-            android:name=".Services"
-            android:label="@string/title_activity_services"
-            android:parentActivityName=".MainNavigation"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="bit.abduhs1.dunedin.MainNavigation" />
-        </activity>
+        <activity android:name=".Activities"
+            android:parentActivityName=".MainNavigation" />
+        <activity android:name=".Shopping"
+            android:parentActivityName=".MainNavigation" />
+        <activity android:name=".Services"
+            android:parentActivityName=".MainNavigation" />
+        <activity android:name=".Dining"
+            android:parentActivityName=".MainNavigation"></activity>
     </application>
 
 </manifest>

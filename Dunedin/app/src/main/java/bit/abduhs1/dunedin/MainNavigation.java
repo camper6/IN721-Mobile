@@ -1,11 +1,13 @@
 package bit.abduhs1.dunedin;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -15,6 +17,10 @@ public class MainNavigation extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_navigation);
+
+        Resources resourceMachine = getResources();
+        ImageView imageViewDunedin = (ImageView)findViewById(R.id.imageViewDunedin);
+        imageViewDunedin.setImageDrawable(resourceMachine.getDrawable(R.drawable.navigation_octagon, null));
 
         setUpGroupList();
 
