@@ -60,51 +60,45 @@ public class SearchArtist extends AppCompatActivity {
     }
 
     public class AsyncAPIGetJSON extends AsyncTask<String, Void, String> {
-        String artist;
 
-        // I had to set a constructor to do the job in order for the search to work
-        public AsyncAPIGetJSON(String artist) {
-            super();
-            this.artist = artist;
-        }
+            @Override
+            protected String doInBackground(String... params) {
+                String artist = params[0];
+                String urlString = "http://ws.audioscrobbler.com/2.0/?api_key=58384a2141a4b9737eacb9d0989b8a8c&method=artist.getsimilar&artist="+artist+"&limit=10&format=json";
 
-        @Override
-        protected String doInBackground(String... params) {
-            String urlString = "http://ws.audioscrobbler.com/2.0/?api_key=58384a2141a4b9737eacb9d0989b8a8c&method=artist.getsimilar&artist="+artist+"&limit=10&format=json";
-
-            URL URLObject = null;
-            try {
-                URLObject = new URL(urlString);
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
-
-            int responseCode = 0;
-            String JSONString = null;
-            try {
-                HttpURLConnection connection = (HttpURLConnection) URLObject.openConnection();
-                connection.connect();
-                responseCode = connection.getResponseCode();
-
-                if (responseCode == 200) {
-                    InputStream inputStream = connection.getInputStream();
-                    InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-                    BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-
-                    String responseString;
-                    StringBuilder stringBuilder = new StringBuilder();
-                    while ((responseString = bufferedReader.readLine()) != null) {
-                        stringBuilder = stringBuilder.append(responseString);
-                    }
-
-                    JSONString = stringBuilder.toString();
+                URL URLObject = null;
+                try {
+                    URLObject = new URL(urlString);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
 
-            return JSONString;
-        }
+                int responseCode = 0;
+                String JSONString = null;
+                try {
+                    HttpURLConnection connection = (HttpURLConnection) URLObject.openConnection();
+                    connection.connect();
+                    responseCode = connection.getResponseCode();
+
+                    if (responseCode == 200) {
+                        InputStream inputStream = connection.getInputStream();
+                        InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                        BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+                        String responseString;
+                        StringBuilder stringBuilder = new StringBuilder();
+                        while ((responseString = bufferedReader.readLine()) != null) {
+                            stringBuilder = stringBuilder.append(responseString);
+                        }
+
+                        JSONString = stringBuilder.toString();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                return JSONString;
+            }
 
         @Override
         protected void onPostExecute(String s) {
@@ -119,9 +113,9 @@ public class SearchArtist extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             EditText artist = (EditText) findViewById(R.id.editTextArtist);
+            AsyncAPIGetJSON APIThread = new AsyncAPIGetJSON();
             if (!(artist.getText().toString().matches(""))) {
-                AsyncAPIGetJSON APIThread = new AsyncAPIGetJSON(artist.getText().toString());
-                APIThread.execute();//I cannot pass a string into this!
+                APIThread.execute(artist.getText().toString());
             }
         }
     }
