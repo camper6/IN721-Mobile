@@ -12,8 +12,8 @@ public class Services extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_services);
 
-        Resources resourceMachine = getResources();
+        //Resources resourceMachine = getResources();
         ImageView imageViewLibrary = (ImageView)findViewById(R.id.imageViewLibrary);
-        imageViewLibrary.setImageDrawable(resourceMachine.getDrawable(R.drawable.library, null));
+        imageViewLibrary.setImageResource(R.drawable.library);
     }
 }

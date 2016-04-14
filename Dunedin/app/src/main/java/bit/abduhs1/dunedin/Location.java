@@ -7,10 +7,10 @@ import android.graphics.drawable.Drawable;
  */
 public class Location {
 
-    Drawable locationImage;
+    int locationImage;
     String locationName;
 
-    public Location(String locationName, Drawable locationImage) {
+    public Location(String locationName, int locationImage) {
         this.locationName = locationName;
         this.locationImage = locationImage;
     }

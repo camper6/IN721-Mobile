@@ -18,9 +18,9 @@ public class MainNavigation extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_navigation);
 
-        Resources resourceMachine = getResources();
+        //Resources resourceMachine = getResources();
         ImageView imageViewDunedin = (ImageView)findViewById(R.id.imageViewDunedin);
-        imageViewDunedin.setImageDrawable(resourceMachine.getDrawable(R.drawable.navigation_octagon, null));
+        imageViewDunedin.setImageResource(R.drawable.navigation_octagon);
 
         setUpGroupList();
 

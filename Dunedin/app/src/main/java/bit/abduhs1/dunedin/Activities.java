@@ -15,35 +15,48 @@ import android.widget.TextView;
 
 public class Activities extends Activity {
 
-    Location[] locations;
+    Location[] location;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_activities);
 
-        initialiseDataArray();
+        location = initialiseDataArray();
 
-        ActivitiesArrayAdapter activitiesAdapter = new ActivitiesArrayAdapter(this, R.layout.custom_list_item, locations);
+        ActivitiesArrayAdapter activitiesAdapter = new ActivitiesArrayAdapter(this, R.layout.custom_list_item, location);
 
         ListView groupListView = (ListView) findViewById(R.id.listViewActivities);
         groupListView.setAdapter(activitiesAdapter);
     }
 
-    private void initialiseDataArray() {
-        Resources resourceMachine = getResources();
-        Drawable larnachImage = resourceMachine.getDrawable(R.drawable.larnach_castle, null);
-        Drawable moanaImage = resourceMachine.getDrawable(R.drawable.moana_pool, null);
-        Drawable monarchImage = resourceMachine.getDrawable(R.drawable.monarch, null);
-        Drawable octagonImage = resourceMachine.getDrawable(R.drawable.octagon, null);
-        Drawable olvestonImage = resourceMachine.getDrawable(R.drawable.olveston, null);
-        Drawable peninsulaImage = resourceMachine.getDrawable(R.drawable.peninsula, null);
-        Drawable stkildaImage = resourceMachine.getDrawable(R.drawable.st_kilda_beach, null);
-        Drawable saltpoolmage = resourceMachine.getDrawable(R.drawable.salt_water_pool, null);
-        Drawable breweryImage = resourceMachine.getDrawable(R.drawable.speights_brewery, null);
-        Drawable taeriImage = resourceMachine.getDrawable(R.drawable.taeri_gorge_railway, null);
+    private Location[] initialiseDataArray() {
+        /*Resources resourceMachine = getResources();
+        Drawable larnachImage = resourceMachine.getDrawable(R.drawable.larnach_castle);
+        Drawable moanaImage = resourceMachine.getDrawable(R.drawable.moana_pool);
+        Drawable monarchImage = resourceMachine.getDrawable(R.drawable.monarch);
+        Drawable octagonImage = resourceMachine.getDrawable(R.drawable.octagon);
+        Drawable olvestonImage = resourceMachine.getDrawable(R.drawable.olveston);
+        Drawable peninsulaImage = resourceMachine.getDrawable(R.drawable.peninsula);
+        Drawable stkildaImage = resourceMachine.getDrawable(R.drawable.st_kilda_beach);
+        Drawable saltpoolmage = resourceMachine.getDrawable(R.drawable.salt_water_pool);
+        Drawable breweryImage = resourceMachine.getDrawable(R.drawable.speights_brewery);
+        Drawable taeriImage = resourceMachine.getDrawable(R.drawable.taeri_gorge_railway);
+        */
 
-        locations = new Location[10];
+
+        int larnachImage = (R.drawable.larnach_castle);
+        int moanaImage = (R.drawable.moana_pool);
+        int monarchImage = (R.drawable.monarch);
+        int octagonImage = (R.drawable.octagon);
+        int olvestonImage = (R.drawable.olveston);
+        int peninsulaImage = (R.drawable.peninsula);
+        int stkildaImage = (R.drawable.st_kilda_beach);
+        int saltpoolmage = (R.drawable.salt_water_pool);
+        int breweryImage = (R.drawable.speights_brewery);
+        int taeriImage = (R.drawable.taeri_gorge_railway);
+
+        Location[] locations = new Location[10];
         locations[0] = new Location("Larnach Castle", larnachImage);
         locations[1] = new Location("Moana Pool", moanaImage);
         locations[2] = new Location("Monarch Cruise", monarchImage);
@@ -54,13 +67,23 @@ public class Activities extends Activity {
         locations[7] = new Location("Salt Water Pool", saltpoolmage);
         locations[8] = new Location("Speights Brewery", breweryImage);
         locations[9] = new Location("Taeri Gorge Railway", taeriImage);
+        return locations;
     }
 
     public class ActivitiesArrayAdapter extends ArrayAdapter<Location> {
+        //Location[] array;
 
         public ActivitiesArrayAdapter(Context context, int resource, Location[] objects) {
             super(context, resource, objects);
+            //array = objects;
         }
+
+        /*
+        @Override
+        public int getCount() {
+            return array.length;
+        }
+        */
 
         @Override
         public View getView(int position, View convertView, ViewGroup container) {
@@ -71,9 +94,10 @@ public class Activities extends Activity {
             ImageView itemImageView = (ImageView) customView.findViewById(R.id.ivItemImage);
             TextView itemTextView = (TextView) customView.findViewById(R.id.tvItemsWords);
 
+            //Location currentItem = array[position];
             Location currentItem = getItem(position);
 
-            itemImageView.setImageDrawable(currentItem.locationImage);
+            itemImageView.setImageResource(currentItem.locationImage);
             itemTextView.setText(currentItem.toString());
 
             return customView;

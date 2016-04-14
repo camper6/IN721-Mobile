@@ -7,7 +7,7 @@
 
     <ImageView
         android:id="@+id/ivItemImage"
-        android:layout_width="750dp"
+        android:layout_width="75dp"
         android:layout_height="50dp" />
 
     <TextView
@@ -15,6 +15,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingLeft="8dp"
-        android:textAppearance="?android:attr/textAppearanceMedium"/>
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
 </LinearLayout>
