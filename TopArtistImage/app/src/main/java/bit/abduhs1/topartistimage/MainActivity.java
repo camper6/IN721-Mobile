@@ -51,12 +51,9 @@ public class MainActivity extends AppCompatActivity {
         return topArtist;
     }
 
-    public class AsyncAPISetImage extends AsyncTask<String, Void, Bitmap> {
+    public class AsyncAPISetImage extends AsyncTask<Void, Void, Bitmap> {
 
-        @Override
-        protected Bitmap doInBackground(String... params) {
-            String url = params[0];
-
+        public InputStream getInputStream(String url) {
             URL URLObject = null;
             try {
                 URLObject = new URL(url);
@@ -64,20 +61,46 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            int responseCode = 0;
-            Bitmap topArtist = null;
+            InputStream inputStream = null;
             try {
                 HttpURLConnection connection = (HttpURLConnection) URLObject.openConnection();
                 connection.connect();
-                responseCode = connection.getResponseCode();
+                int responseCode = connection.getResponseCode();
 
                 if (responseCode == 200) {
-                    InputStream inputStream = connection.getInputStream();
-                    topArtist = BitmapFactory.decodeStream(inputStream);
+                    inputStream = connection.getInputStream();
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+            return inputStream;
+        }
+
+        @Override
+        protected Bitmap doInBackground(Void... params) {
+            String urlString = "http://ws.audioscrobbler.com/2.0/?api_key=58384a2141a4b9737eacb9d0989b8a8c&method=chart.gettopartists&format=json";
+
+            InputStream inputStream = getInputStream(urlString);
+            String JSONString = null;
+            try {
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+                String responseString;
+                StringBuilder stringBuilder = new StringBuilder();
+                while ((responseString = bufferedReader.readLine()) != null) {
+                    stringBuilder = stringBuilder.append(responseString);
+                }
+                JSONString = stringBuilder.toString();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            String url = getImageURL(JSONString);
+
+            inputStream = getInputStream(url);
+            Bitmap topArtist = BitmapFactory.decodeStream(inputStream);
 
             return topArtist;
         }
@@ -89,59 +112,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public class AsyncAPIGetJSON extends AsyncTask<Void, Void, String> {
-
-        @Override
-        protected String doInBackground(Void... params) {
-            String urlString = "http://ws.audioscrobbler.com/2.0/?api_key=58384a2141a4b9737eacb9d0989b8a8c&method=chart.gettopartists&format=json";
-
-            URL URLObject = null;
-            try {
-                URLObject = new URL(urlString);
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
-
-            int responseCode = 0;
-            String JSONString = null;
-            try {
-                HttpURLConnection connection = (HttpURLConnection) URLObject.openConnection();
-                connection.connect();
-                responseCode = connection.getResponseCode();
-
-                if (responseCode == 200) {
-                    InputStream inputStream = connection.getInputStream();
-                    InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-                    BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-
-                    String responseString;
-                    StringBuilder stringBuilder = new StringBuilder();
-                    while ((responseString = bufferedReader.readLine()) != null) {
-                        stringBuilder = stringBuilder.append(responseString);
-                    }
-
-                    JSONString = stringBuilder.toString();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            return JSONString;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            AsyncAPISetImage setImage = new AsyncAPISetImage();
-            String imageURL = getImageURL(s);
-            setImage.execute(imageURL);
-        }
-    }
-
     public class ButtonSetImageHandler implements View.OnClickListener {
 
         @Override
         public void onClick(View v) {
-            AsyncAPIGetJSON apiThread = new AsyncAPIGetJSON();
+            AsyncAPISetImage apiThread = new AsyncAPISetImage();
             apiThread.execute();
         }
     }
