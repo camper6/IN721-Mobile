@@ -22,7 +22,7 @@
         <activity android:name=".Services"
             android:parentActivityName=".MainNavigation" />
         <activity android:name=".Dining"
-            android:parentActivityName=".MainNavigation"></activity>
+            android:parentActivityName=".MainNavigation" />
     </application>
 
 </manifest>

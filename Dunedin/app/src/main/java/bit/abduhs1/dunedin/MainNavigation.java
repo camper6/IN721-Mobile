@@ -42,7 +42,7 @@ public class MainNavigation extends AppCompatActivity {
 
         @Override
         public void onItemClick(AdapterView<?> list, View view, int position, long id) {
-            String clickedItem = (String) list.getItemAtPosition(position).toString();
+            String clickedItem = list.getItemAtPosition(position).toString();
             Intent goToIntent;
 
             switch (clickedItem) {

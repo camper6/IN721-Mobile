@@ -14,6 +14,7 @@ public class Services extends Activity {
 
         //Resources resourceMachine = getResources();
         ImageView imageViewLibrary = (ImageView)findViewById(R.id.imageViewLibrary);
-        imageViewLibrary.setImageResource(R.drawable.library);
+        int library = R.drawable.library_smaller;
+        imageViewLibrary.setImageResource(library);
     }
 }
