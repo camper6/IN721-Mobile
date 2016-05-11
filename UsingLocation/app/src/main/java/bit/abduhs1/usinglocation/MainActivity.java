@@ -195,8 +195,8 @@ public class MainActivity extends AppCompatActivity {
     public Bitmap getCityImage(String city, String code) {
         Bitmap image = null;
         // Needs better result
-        //String flickr = "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=eda41a123d459be0f85276d37290651e&accuracy=11&tag=" + city + "%2C%20" + code + "&format=json&nojsoncallback=1";
-        String flickr = "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=eda41a123d459be0f85276d37290651e&tag=city&text=" + city + "%2C%20" + code + "&format=json&nojsoncallback=1";
+        //String flickr = "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=eda41a123d459be0f85276d37290651e&accuracy=11&tags=" + city + "%2C%20" + code + "&format=json&nojsoncallback=1";
+        String flickr = "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=eda41a123d459be0f85276d37290651e&tags=" + city + "%2C%20" + code + "&format=json&nojsoncallback=1";
 
         String photoURL = null;
         String photosJSON = getJSON(flickr);
