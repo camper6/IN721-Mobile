@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView imageView3;
     private ImageView imageView4;
     private Button photoIntent;
-    private String mPhotoFileName;
+    private String mPhotoFileName = "";
     private File mPhotoFile;
     private Uri mPhotoFileUri;
 
