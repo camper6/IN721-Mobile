@@ -19,6 +19,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,17 +41,20 @@ import java.text.DecimalFormat;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
-    private double latitude;
-    private double longtitude;
+    protected double latitude;
+    protected double longtitude;
     private Random rGen;
     private DecimalFormat decFormat;
 
-    TextView tvLatitudeValue;
-    TextView tvLongtitudeValue;
-    TextView tvCity;
-    ImageView imageView;
+    //TextView tvLatitudeValue;
+    //TextView tvLongtitudeValue;
+    //TextView tvCity;
+    //ImageView imageView;
 
-    ProgressDialog progressDialog;
+    protected GoogleMap mMap;
+    protected LatLng latLng;
+
+    protected ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,10 +65,10 @@ public class MainActivity extends AppCompatActivity {
         decFormat = new DecimalFormat("##.###");
         setCoordinate();
 
-        tvLatitudeValue = (TextView) findViewById(R.id.tvLatitudeValue);
-        tvLongtitudeValue = (TextView) findViewById(R.id.tvLongtitudeValue);
-        tvCity = (TextView) findViewById(R.id.tvCity);
-        imageView = (ImageView) findViewById(R.id.imageView);
+        //tvLatitudeValue = (TextView) findViewById(R.id.tvLatitudeValue);
+        //tvLongtitudeValue = (TextView) findViewById(R.id.tvLongtitudeValue);
+        //tvCity = (TextView) findViewById(R.id.tvCity);
+        //imageView = (ImageView) findViewById(R.id.imageView);
 
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         Criteria defaultCriteria = new Criteria();
@@ -77,7 +87,11 @@ public class MainActivity extends AppCompatActivity {
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        Location lastLocation = locationManager.getLastKnownLocation(providerName);
+        Location lastLocation = locationManager.getLastKnownLocation(providerName);SupportMapFragment mapFragment = (SupportMapFragment)getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+
+        //latLng = new LatLng(-45.8788, 170.5028);
+        mapFragment.getMapAsync(new MapCallBackClass());
 
         Button btTeleport = (Button)findViewById(R.id.btTeleport);
         btTeleport.setOnClickListener(new TeleportButtonListener());
@@ -90,22 +104,28 @@ public class MainActivity extends AppCompatActivity {
         longtitude = rGen.nextDouble() * (180*2) - 180;
     }
 
+
+    public class TeleportButtonListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            setCoordinate();
+            AsyncAPIGetNearestCity getCity = new AsyncAPIGetNearestCity(MainActivity.this);
+            getCity.execute();
+        }
+    }
+
+    public class MapCallBackClass implements OnMapReadyCallback {
+
+        @Override
+        public void onMapReady(GoogleMap googleMap) {
+
+            mMap = googleMap;
+        }
+    }
+    /*
     public void setTextViewCoordinate() {
         tvLatitudeValue.setText(String.valueOf(decFormat.format(latitude)));
         tvLongtitudeValue.setText(String.valueOf(decFormat.format(longtitude)));
-    }
-
-    public String getCityValues(String JSONInput, String name) {
-        String result = "";
-
-        try {
-            JSONObject json = new JSONObject(JSONInput);
-            result = json.getString(name);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        return result;
     }
 
     public void setTextViewCity(String city, String code) {
@@ -114,82 +134,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void setImageView(Bitmap image) {
         imageView.setImageBitmap(image);
-    }
-
-    /*
-    public void setTextViewCity(String JSONInput) {
-        String city = "";
-        String countryCode = "";
-
-        try {
-            if (!JSONInput.equals("[[]]")) { // Using == operator does not catch the empty value. Why?
-                JSONObject place = new JSONObject(JSONInput);
-                city = place.getString("geoplugin_place");
-                countryCode = place.getString("geoplugin_countryCode");
-                tvCityValue.setText(city + ", " + countryCode);
-            } else {
-                tvCityValue.setText("You've landed in the ocean");
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }*/
-
-    public class TeleportButtonListener implements View.OnClickListener {
-        @Override
-        public void onClick(View v) {
-            setCoordinate();
-            //setTextViewCoordinate();
-            AsyncAPIGetNearestCity getCity = new AsyncAPIGetNearestCity(MainActivity.this);
-            //AsyncAPIGetJSON getCity = new AsyncAPIGetJSON();
-            getCity.execute();
-        }
-    }
-
-    public String getJSON(String url) {
-        URL URLObject = null;
-        try {
-            URLObject = new URL(url);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-
-        int responseCode = 0;
-        String JSONString = null;
-        try {
-            HttpURLConnection connection = (HttpURLConnection) URLObject.openConnection();
-            connection.connect();
-            responseCode = connection.getResponseCode();
-
-            if (responseCode == 200) {
-                InputStream inputStream = connection.getInputStream();
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-
-                String responseString;
-                StringBuilder stringBuilder = new StringBuilder();
-                while ((responseString = bufferedReader.readLine()) != null) {
-                    stringBuilder = stringBuilder.append(responseString);
-                }
-                JSONString = stringBuilder.toString();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return JSONString;
-    }
-
-    public String getGeopluginJSON() {
-        String url = "http://www.geoplugin.net/extras/location.gp?lat=" + latitude + "&long=" + longtitude + "&format=json";
-
-        String json = getJSON(url);
-
-        if (json.equals("[[]]")) {
-            json = null;
-            setCoordinate();
-        }
-
-        return json;
     }
 
     public Bitmap getCityImage(String city, String code) {
@@ -227,7 +171,16 @@ public class MainActivity extends AppCompatActivity {
 
     public Bitmap getImage(String url) {
         Bitmap photo = null;
+        InputStream inputStream = getStream(url);
+        if (inputStream != null) {
+            photo = BitmapFactory.decodeStream(inputStream);
+        }
 
+        return photo;
+    }
+    */
+
+    public InputStream getStream(String url) {
         URL URLObject = null;
         try {
             URLObject = new URL(url);
@@ -235,21 +188,68 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        int responseCode = 0;
+        InputStream inputStream = null;
         try {
             HttpURLConnection connection = (HttpURLConnection) URLObject.openConnection();
             connection.connect();
-            int responseCode = connection.getResponseCode();
+            responseCode = connection.getResponseCode();
 
             if (responseCode == 200) {
-                InputStream inputStream = connection.getInputStream();
-                photo = BitmapFactory.decodeStream(inputStream);
+                inputStream = connection.getInputStream();
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return photo;
+        return inputStream;
+    }
+
+    public String getJSON(String url) {
+        String JSONString = null;
+        InputStream inputStream = getStream(url);
+        try {
+            if (inputStream != null) {
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+                String responseString;
+                StringBuilder stringBuilder = new StringBuilder();
+                while ((responseString = bufferedReader.readLine()) != null) {
+                    stringBuilder = stringBuilder.append(responseString);
+                }
+                JSONString = stringBuilder.toString();
+            }
+        } catch (IOException e) {
+        e.printStackTrace();
+        }
+        return JSONString;
+    }
+
+    public String getGeopluginJSON() {
+        String url = "http://www.geoplugin.net/extras/location.gp?lat=" + latitude + "&long=" + longtitude + "&format=json";
+
+        String json = getJSON(url);
+
+        if (json.equals("[[]]")) {
+            json = null;
+            setCoordinate();
+        }
+
+        return json;
+    }
+
+    public String getCityValues(String JSONInput, String name) {
+        String result = "";
+
+        try {
+            JSONObject json = new JSONObject(JSONInput);
+            result = json.getString(name);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return result;
     }
 
     public class customLocationListener implements LocationListener {
@@ -283,7 +283,7 @@ public class MainActivity extends AppCompatActivity {
 
         String city = "";
         String code = "";
-        Bitmap image = null;
+        //Bitmap image = null;
 
         public AsyncAPIGetNearestCity(MainActivity activity) {
             progressDialog = new ProgressDialog(activity); // Better to put here than in the buttons, because upon execute, the Dialog won't receive any feedbacks it needs if in the button
@@ -308,62 +308,19 @@ public class MainActivity extends AppCompatActivity {
 
             city = getCityValues(json, "geoplugin_place");
             code = getCityValues(json, "geoplugin_countryCode");
-            image = getCityImage(city, code);
+            //image = getCityImage(city, code);
 
             return null;
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            setTextViewCoordinate();
-            setTextViewCity(city, code);
-            setImageView(image);
+            latLng = new LatLng(latitude, longtitude);
+            mMap.addMarker(new MarkerOptions().position(latLng).title(city + ", " + code));
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+            //setTextViewCoordinate();
+            //setTextViewCity(city, code);
+            //setImageView(image);
         }
     }
-
-    /*
-    public class AsyncAPIGetJSON extends AsyncTask<Void, Void, String> {
-
-        @Override
-        protected String doInBackground(Void... params) {
-            String url = "http://www.geoplugin.net/extras/location.gp?lat=" + latitude + "&long=" + longtitude + "&format=json";
-
-            URL URLObject = null;
-            try {
-                URLObject = new URL(url);
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
-
-            int responseCode = 0;
-            String JSONString = null;
-            try {
-                HttpURLConnection connection = (HttpURLConnection) URLObject.openConnection();
-                connection.connect();
-                responseCode = connection.getResponseCode();
-
-                if (responseCode == 200) {
-                    InputStream inputStream = connection.getInputStream();
-                    InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-                    BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-
-                    String responseString;
-                    StringBuilder stringBuilder = new StringBuilder();
-                    while ((responseString = bufferedReader.readLine()) != null) {
-                        stringBuilder = stringBuilder.append(responseString);
-                    }
-                    JSONString = stringBuilder.toString();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            return JSONString;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            setTextViewCity(s);
-        }
-    }*/
 }
