@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:icon="@drawable/ic_ripple"
+        android:id="@+id/menu_item_ripple"
+        android:title="Ripple"
+        app:showAsAction="ifRoom|withText">
+    </item>
+    <item
+        android:icon="@drawable/ic_explode"
+        android:id="@+id/menu_item_explode"
+        android:title="Explode"
+        app:showAsAction="ifRoom|withText">
+    </item>
+    <item
+        android:icon="@drawable/ic_stand_up"
+        android:id="@+id/menu_item_stand"
+        android:title="Stand Up"
+        app:showAsAction="ifRoom|withText">
+    </item>
+</menu>
